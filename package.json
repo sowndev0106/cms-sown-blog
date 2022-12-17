@@ -1,0 +1,36 @@
+{
+  "name": "sown-blog-be",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "dependencies": {
+    "@_sh/strapi-plugin-ckeditor": "^1.1.2",
+    "@strapi/plugin-graphql": "4.4.5",
+    "@strapi/plugin-i18n": "4.4.5",
+    "@strapi/plugin-users-permissions": "4.4.5",
+    "@strapi/provider-upload-cloudinary": "^4.4.5",
+    "@strapi/strapi": "4.4.5",
+    "pg": "8.6.0",
+    "strapi-generate-plugin": "^3.6.10"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": "a1ef296d-a674-4e4a-b23c-1386bfc7b007"
+  },
+  "engines": {
+    "node": ">=14.19.1 <=18.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@gtomato/ckeditor5-strapi-upload-plugin": "^1.0.0"
+  }
+}
