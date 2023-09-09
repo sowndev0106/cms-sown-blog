@@ -15,12 +15,12 @@ jobs:
 
       - name: Deploy - Down
         run: |
-          docker compose down
+          sudo docker compose down
 
       - name: Deploy - Build
         run: |
-          docker compose build
+          sudo docker compose build
 
       - name: Deploy - up
         run: |
-          docker compose up -d
+          sudo docker compose up -d
