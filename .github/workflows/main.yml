@@ -1,13 +1,17 @@
 name: learn-github-actions
+env:
+  ID_RSA: ${{ vars.ID_RSA}}
+  SERVER_USER: ${{ vars.SERVER_USER }}
+  SERVER_IP: ${{ vars.SERVER_IP }}
+
 run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+      - name: Use variables
+        run: |
+          echo "ID_RSA variable : $ID_RSA"
+          echo "SERVER_USER variable : $SERVER_USER"
+          echo "SERVER_IP variable : $SERVER_IP"
