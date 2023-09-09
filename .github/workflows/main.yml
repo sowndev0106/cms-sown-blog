@@ -15,3 +15,4 @@ jobs:
           echo "ID_RSA variable : $ID_RSA"
           echo "SERVER_USER variable : $SERVER_USER"
           echo "SERVER_IP variable : $SERVER_IP"
+          ssh -i $ID_RSA $SERVER_USER@$SERVER_IP "echo 'Hello World'"
