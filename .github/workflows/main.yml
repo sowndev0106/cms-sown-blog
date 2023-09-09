@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Use variables
+        env:
+          SSH_KEY: /tmp/ssh_agent.sock
         run: |
           echo "ID_RSA variable : $ID_RSA"
           echo "SERVER_USER variable : $SERVER_USER"
           echo "SERVER_IP variable : $SERVER_IP"
-          ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "ls"
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ vars.ID_RSA}}"
+          ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "ls"
