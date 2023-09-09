@@ -12,11 +12,10 @@ jobs:
     steps:
       - name: Use variables
         env:
-          SSH_KEY: /tmp/ssh_agent.sock
+          SSH_KEY: /tmp/ssh_id_rsa
         run: |
           echo "ID_RSA variable : $ID_RSA"
           echo "SERVER_USER variable : $SERVER_USER"
           echo "SERVER_IP variable : $SERVER_IP"
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ vars.ID_RSA}}"
+          echo "$ID_RSA" > $SSH_KEY
           ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "ls"
