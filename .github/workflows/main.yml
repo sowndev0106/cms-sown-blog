@@ -10,7 +10,7 @@ jobs:
   check-bats-version:
     runs-on: ubuntu-latest
     steps:
-      - name: Use variables
+      - name: Show variables
         env:
           SSH_KEY: /tmp/ssh_id_rsa
         run: |
@@ -18,4 +18,6 @@ jobs:
           echo "SERVER_USER variable : $SERVER_USER"
           echo "SERVER_IP variable : $SERVER_IP"
           echo "$ID_RSA" > $SSH_KEY
+          echo chmod 400 $SSH_KEY
+          cat $SSH_KEY
           ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "ls"
