@@ -9,7 +9,8 @@ exports.default = ({ env }) => ({
             database: env("DATABASE_NAME", env("DATABASE_NAME")),
             user: env("DATABASE_USERNAME", env("DATABASE_USERNAME")),
             password: env("DATABASE_PASSWORD", env("DATABASE_PASSWORD")),
-            ssl: { rejectUnauthorized: false },
+            // ssl: { rejectUnauthorized: true },
+            ssl: false,
         },
     },
 });

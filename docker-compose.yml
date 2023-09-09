@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 162001
+      POSTGRES_DB: sowndev-strapi
+    volumes:
+       - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    expose:
+      - 5432
+
+  strapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: sowndev-strapi
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: 162001
+    ports:
+      - "1337:1337"
+    # wait for postgres to be ready
+    depends_on:
+      - database 
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres-volume:
+    external: true
+    # appstrapi:
