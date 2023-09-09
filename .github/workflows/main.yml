@@ -10,14 +10,16 @@ jobs:
   check-bats-version:
     runs-on: self-hosted
     steps:
-      - name: Show variables
-        env:
-          SSH_KEY: id_rsa
+      - uses: actions/checkout@v3
+
+      - name: Deploy - Down
         run: |
-          echo "ID_RSA variable : $ID_RSA"
-          echo "SERVER_USER variable : $SERVER_USER"
-          echo "SERVER_IP variable : $SERVER_IP"
-          echo ls -a
-          echo "$ID_RSA" > $SSH_KEY
-          echo sudo chmod 600 $SSH_KEY
-          ls -a
+          docker compose down
+
+      - name: Deploy - Build
+        run: |
+          docker compose build
+
+      - name: Deploy - up
+        run: |
+          docker compose up -d
