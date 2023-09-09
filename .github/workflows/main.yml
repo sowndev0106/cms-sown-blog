@@ -12,12 +12,11 @@ jobs:
     steps:
       - name: Show variables
         env:
-          SSH_KEY: /tmp/ssh_id_rsa
+          SSH_KEY: ~/.ssh/id_rsa
         run: |
           echo "ID_RSA variable : $ID_RSA"
           echo "SERVER_USER variable : $SERVER_USER"
           echo "SERVER_IP variable : $SERVER_IP"
           echo "$ID_RSA" > $SSH_KEY
           echo sudo chmod 600 $SSH_KEY
-          cat $SSH_KEY
           ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "ls"
