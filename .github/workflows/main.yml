@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Show variables
         env:
-          SSH_KEY: /.ssh/id_rsa
+          SSH_KEY: id_rsa
         run: |
           echo "ID_RSA variable : $ID_RSA"
           echo "SERVER_USER variable : $SERVER_USER"
