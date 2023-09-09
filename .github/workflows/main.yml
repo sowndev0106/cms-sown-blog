@@ -20,4 +20,5 @@ jobs:
           echo ls -a
           echo "$ID_RSA" > $SSH_KEY
           echo sudo chmod 600 $SSH_KEY
+          ls -a
           # ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "ls"
