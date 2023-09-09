@@ -42,5 +42,5 @@ networks:
 
 volumes:
   postgres-volume:
-    external: true
+    external: false
     # appstrapi:
