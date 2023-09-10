@@ -13,17 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Deploy - Down
-        run: |
-          sudo docker compose down
-
-      - name: Deploy - Build
+      - name: Build
         run: |
           sudo docker compose build
 
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Deploy - up
+      - name: Deploy
         run: |
+          sudo docker compose down
           sudo docker compose up -d
