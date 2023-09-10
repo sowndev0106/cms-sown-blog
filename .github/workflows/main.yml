@@ -4,10 +4,10 @@ env:
   SERVER_USER: ${{ vars.SERVER_USER }}
   SERVER_IP: ${{ vars.SERVER_IP }}
 
-run-name: ${{ github.actor }} is learning GitHub Actions
+run-name: ${{ github.actor }} CICD
 on: [push]
 jobs:
-  check-bats-version:
+  build:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
@@ -21,6 +21,9 @@ jobs:
         run: |
           sudo docker compose build
 
+  deploy:
+    runs-on: self-hosted
+    steps:
       - name: Deploy - up
         run: |
           sudo docker compose up -d
