@@ -29,7 +29,7 @@ services:
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: 162001
     ports:
-      - "1337:1337"
+      - "80:1337"
     # wait for postgres to be ready
     depends_on:
       - database 
