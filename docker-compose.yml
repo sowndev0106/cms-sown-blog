@@ -17,9 +17,10 @@ services:
       - 5432
 
   strapi:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: son162001/sowndev-backend:latest
     restart: always
     environment:
       DATABASE_CLIENT: postgres
