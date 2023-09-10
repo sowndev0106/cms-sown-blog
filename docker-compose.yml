@@ -28,6 +28,16 @@ services:
       DATABASE_NAME: sowndev-strapi
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: 162001
+      HOST: 0.0.0.0
+      PORT: 1337
+      APP_KEYS: J3Wsg2Z0Vf4lSEnjNJdtHA==,IgIwhz9SrJsliHUXTX+fUg==,AdBhkZpSfasY8HykQx+rHA==,+13xpOvxXKVCY4InlRHLHw==
+      API_TOKEN_SALT: h/BKYcU4aO01v5ft8bZsaA==
+      ADMIN_JWT_SECRET: UF5rvYAcPoODb8G03z3GHA==
+      JWT_SECRET: AA3S7ZgaQ4fDiLaR4Gtshw==
+      CLOUDINARY_NAME: sown-dev-blog-storage
+      CLOUDINARY_KEY: 315378158979178
+      CLOUDINARY_SECRET: PAsM7NN8E-HE-ZbyTiVYySAnTJk
+
     ports:
       - "80:1337"
     # wait for postgres to be ready
