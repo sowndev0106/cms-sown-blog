@@ -41,4 +41,4 @@ jobs:
 
       - name: remove image prune
         run: |
-          docker image prune --force
+          sudo docker image prune --force
