@@ -29,21 +29,17 @@
         "audios"
       ]
     },
-    "urlVideoYoutube": {
-      "type": "string"
-    },
-    "type": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::type.type"
-    },
     "tags": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::tag.tag"
     },
-    "content": {
-      "type": "richtext"
+    "notionId": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
     }
   }
 }
