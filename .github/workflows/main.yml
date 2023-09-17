@@ -34,7 +34,7 @@ jobs:
         run: |
           pwd
           sudo docker compose down
-          sudo docker images rm ${{secrets.DOCKER_USERNAME}}/$REPOSITORY -f
+          sudo docker images rm ${{secrets.DOCKER_USERNAME}}/$REPOSITORY 
 
       - name: deploy
         run: |
