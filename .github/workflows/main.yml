@@ -18,10 +18,10 @@ jobs:
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
       - name: Build
-        run: docker build -t ${{secrets.DOCKER_USERNAME}}/$REPOSITORY:$(docker images | awk '($1 == "${{secrets.DOCKER_USERNAME}}/$REPOSITORY") {print $2 += .01; exit}') .
+        run: docker build -t ${{secrets.DOCKER_USERNAME}}/$REPOSITORY .
 
       - name: Push Docker Hub
-        run: docker push ${{secrets.DOCKER_USERNAME}}/$REPOSITORY:$(docker images | awk '($1 == "${{secrets.DOCKER_USERNAME}}/$REPOSITORY") {print $2 += .01; exit}')
+        run: docker push ${{secrets.DOCKER_USERNAME}}/$REPOSITORY
 
   deploy:
     needs: build-strapi-app
