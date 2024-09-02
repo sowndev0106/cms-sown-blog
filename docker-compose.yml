@@ -5,6 +5,7 @@ services:
     build: .
     image: ${DOCKER_REGISTRY_IMAGE}
     restart: unless-stopped
+    user: node
     env_file: .env
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -18,7 +19,7 @@ services:
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
     volumes:
-      - ./public:/opt/app/public
+      - ./public/uploads:/opt/app/public/uploads
 
     ports:
       - "${PORT_EXTERNAL}:1337"
