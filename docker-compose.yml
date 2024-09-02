@@ -17,6 +17,8 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
+    volumes:
+      - ./public:/opt/app/public
 
     ports:
       - "${PORT_EXTERNAL}:1337"
