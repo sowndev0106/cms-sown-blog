@@ -23,7 +23,7 @@ COPY --from=build /opt/app ./
 ENV PATH /opt/node_modules/.bin:$PATH
 
 RUN chown -R node:node /opt/app
-RUN chmod -R 777 /opt/app/public/uploads
+RUN chmod -R node:node /opt/app/public/uploads
 USER node
 EXPOSE 1337
 CMD ["yarn", "start"]
