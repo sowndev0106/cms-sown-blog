@@ -20,6 +20,7 @@ services:
       NODE_ENV: ${NODE_ENV}
     volumes:
       - ./public/uploads:/opt/app/public/uploads
+      - ./.env:/opt/app/.env
 
     ports:
       - "${PORT_EXTERNAL}:1337"
