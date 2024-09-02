@@ -19,7 +19,7 @@ services:
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
     volumes:
-      - ./public/uploads:/opt/app/public/uploads
+      # - ./public:/opt/app/public/uploads
       - ./.env:/opt/app/.env
 
     ports:
