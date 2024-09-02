@@ -7,26 +7,10 @@ exports.default = ({ env }) => {
             enabled: true,
             resolve: "./src/plugins/wysiwyg", // path to plugin folder
         },
-        // config  CLOUDINARY
-        upload: {
-            config: {
-                provider: "cloudinary",
-                providerOptions: {
-                    cloud_name: env("CLOUDINARY_NAME"),
-                    api_key: env("CLOUDINARY_KEY"),
-                    api_secret: env("CLOUDINARY_SECRET"),
-                },
-                actionOptions: {
-                    upload: {},
-                    uploadStream: {},
-                    delete: {},
-                },
-            },
-        },
-        // graphql: 
+        // graphql:
         graphql: {
             config: {
-                endpoint: '/graphql',
+                endpoint: "/graphql",
                 shadowCRUD: true,
                 playgroundAlways: false,
                 depthLimit: 7,

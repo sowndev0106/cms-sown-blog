@@ -1,37 +1,35 @@
 {
   "name": "sown-blog-be",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "description": "A Strapi application",
-  "scripts": {
-    "develop": "strapi develop",
-    "start": "strapi start",
-    "build": "strapi build",
-    "strapi": "strapi"
-  },
-  "dependencies": {
-    "@_sh/strapi-plugin-ckeditor": "^1.1.2",
-    "@strapi/plugin-graphql": "^4.4.5",
-    "@strapi/plugin-i18n": "4.4.5",
-    "@strapi/plugin-users-permissions": "4.4.5",
-    "@strapi/provider-upload-cloudinary": "^4.4.5",
-    "@strapi/strapi": "4.4.5",
-    "mysql": "^2.18.1",
-    "pg": "8.6.0",
-    "strapi-generate-plugin": "^3.6.10"
-  },
+  "license": "MIT",
   "author": {
     "name": "A Strapi developer"
   },
-  "strapi": {
-    "uuid": "a1ef296d-a674-4e4a-b23c-1386bfc7b007"
+  "scripts": {
+    "build": "strapi build",
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "strapi": "strapi"
   },
-  "engines": {
-    "node": ">=14.19.1 <=18.x.x",
-    "npm": ">=6.0.0"
+  "dependencies": {
+    "@strapi/plugin-graphql": "^4.4.5",
+    "@strapi/plugin-i18n": "4.25.9",
+    "@strapi/plugin-users-permissions": "4.25.9",
+    "@strapi/provider-upload-cloudinary": "^4.4.5",
+    "@strapi/strapi": "4.25.9",
+    "esbuild": "0.16.17",
+    "mysql2": "3.11.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^5.2.0",
+    "styled-components": "^5.2.1"
   },
-  "license": "MIT",
   "devDependencies": {
     "@gtomato/ckeditor5-strapi-upload-plugin": "^1.0.0"
+  },
+  "strapi": {
+    "uuid": "a1ef296d-a674-4e4a-b23c-1386bfc7b007"
   }
 }

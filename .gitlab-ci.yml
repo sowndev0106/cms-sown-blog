@@ -1,0 +1,50 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  APP_VERSION: 1.0.0-${CI_COMMIT_SHORT_SHA}_${CI_PIPELINE_IID}
+  SSH: ssh -o StrictHostKeyChecking=no -i "$RSA_SOWN_BLOG_STRAPI" $VPS_USER@$VPS_HOST
+  SSH_WORKSPACE:  ssh -o StrictHostKeyChecking=no -i "$RSA_SOWN_BLOG_STRAPI" $VPS_USER@$VPS_HOST cd sown-blog-backend &&
+
+
+build-job:
+  stage: build
+  image: docker:24.0.5
+  script:
+    - docker login --username $DOCKER_HUB_USER --password $DOCKER_HUB_PASSWORD
+    - docker build -t $DOCKER_REGISTRY:$APP_VERSION .
+    - docker tag $DOCKER_REGISTRY:$APP_VERSION $DOCKER_REGISTRY:latest
+    - docker push $DOCKER_REGISTRY:latest
+    - docker push $DOCKER_REGISTRY:$APP_VERSION
+    - echo "build job"
+  services:
+    - docker:dind
+
+deploy-prod:
+  stage: deploy
+
+  before_script:
+    - echo "create .env file"
+    - env > .env
+    - cat .env
+    - pwd
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - chmod 400 "$RSA_SOWN_BLOG_STRAPI"
+    - ssh-add "$RSA_SOWN_BLOG_STRAPI"
+
+  script:
+    - echo "deploy to production"
+    - $SSH pwd
+    # check if don't have source code => clone. else => pull
+    - $SSH "[ -d sown-blog-backend ]  && echo repository already exist || git clone https://gitlab.com/sowndev/sown-blog-backend.git "
+    - $SSH_WORKSPACE git reset --hard 
+    - $SSH_WORKSPACE git pull origin master
+    - $SSH_WORKSPACE docker-compose down
+    - $SSH_WORKSPACE docker-compose  up -d
+
+    - $SSH docker ps -a
+  environment: production
+  services:
+    - docker:dind

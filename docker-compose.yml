@@ -1,70 +1,54 @@
-version: '3.1'
-
+version: "3"
 services:
-  database:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: 162001
-      POSTGRES_DB: sowndev-strapi
-    volumes:
-       - postgres-volume:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - postgres
-    expose:
-      - 5432
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: always
-    ports:
-      - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: nguyenthanhson162001@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: 162001
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-
   strapi:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
-    image: son162001/sowndev-backend:latest
-    restart: always
+    container_name: strapi-sown
+    build: .
+    image: ${DOCKER_REGISTRY_IMAGE}
+    restart: unless-stopped
+    env_file: .env
     environment:
-      DATABASE_CLIENT: postgres
-      DATABASE_HOST: database
-      DATABASE_PORT: 5432
-      DATABASE_NAME: sowndev-strapi
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: 162001
-      HOST: 0.0.0.0
-      PORT: 1337
-      APP_KEYS: J3Wsg2Z0Vf4lSEnjNJdtHA==,IgIwhz9SrJsliHUXTX+fUg==,AdBhkZpSfasY8HykQx+rHA==,+13xpOvxXKVCY4InlRHLHw==
-      API_TOKEN_SALT: h/BKYcU4aO01v5ft8bZsaA==
-      ADMIN_JWT_SECRET: UF5rvYAcPoODb8G03z3GHA==
-      JWT_SECRET: AA3S7ZgaQ4fDiLaR4Gtshw==
-      CLOUDINARY_NAME: sown-dev-blog-storage
-      CLOUDINARY_KEY: 315378158979178
-      CLOUDINARY_SECRET: PAsM7NN8E-HE-ZbyTiVYySAnTJk
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: strapiDB
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
+      NODE_ENV: ${NODE_ENV}
 
     ports:
-      - "80:1337"
-    # wait for postgres to be ready
-    depends_on:
-      - database 
+      - "${PORT_EXTERNAL}:1337"
     networks:
-      - postgres
+      - strapi-sown
+    depends_on:
+      - strapiDB
 
-networks:
-  postgres:
-    driver: bridge
+  strapiDB:
+    container_name: strapi-sown-db
+    platform: linux/amd64 #for platform error on Apple M1 chips
+    restart: unless-stopped
+    env_file: .env
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+    volumes:
+      - strapi-data:/var/lib/mysql
+      - ./data:/var/lib/mysql # if you want to use a bind folder
+    ports:
+      - "${DATABASE_PORT_EXTERNAL}:3306"
+    networks:
+      - strapi-sown
 
 volumes:
-  postgres-volume:
-    external: false
-    # appstrapi:
-  pgadmin-data:
+  strapi-sown-data:
+
+networks:
+  strapi-sown:
+    name: strapi-sown
+    driver: bridge
