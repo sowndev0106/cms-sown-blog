@@ -109,5 +109,3 @@ jobs:
             docker ps            
             # clear docker images
             # docker rmi $(docker images | grep '${{ env.DOCKER_REPO }}')
-            # gain permissions
-            # sudo chown -R 777 public/uploads

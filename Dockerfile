@@ -22,9 +22,7 @@ WORKDIR /opt/app
 COPY --from=build /opt/app ./
 ENV PATH /opt/node_modules/.bin:$PATH
 
-RUN mkdir -p /opt/app/public/uploads
 RUN chown -R node:node /opt/app
-RUN chmod -R 700 /opt/app/public/uploads
 
 USER node
 EXPOSE 1337
