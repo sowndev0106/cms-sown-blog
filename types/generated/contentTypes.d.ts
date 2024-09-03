@@ -822,6 +822,7 @@ export interface ApiProjectProject extends Schema.CollectionType {
     singularName: 'project';
     pluralName: 'projects';
     displayName: 'Project';
+    description: '';
   };
   options: {
     draftAndPublish: true;
