@@ -2,9 +2,9 @@ name: Publish Docker image
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 env:
   WORKPLACE_APP: ~/app/cms-sown
@@ -41,13 +41,13 @@ jobs:
 
       - name: Declare some variables
         shell: bash
-        id : declare-vars
+        id: declare-vars
         run: |
           echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
           echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
           echo "tag=$(git rev-parse --short "$GITHUB_SHA").$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
           echo "TAG=$(git rev-parse --short "$GITHUB_SHA").$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
-      
+
       - name: Another step
         run: |
           echo "Branch: ${{ env.branch }}"
@@ -76,12 +76,12 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
-      
-      - name: Create .env file 
+
+      - name: Create .env file
         env:
-            SECRETS_VARS: ${{ toJson(secrets) }}
-            ENV_VARS: ${{ toJson(vars) }}
-        run: | 
+          SECRETS_VARS: ${{ toJson(secrets) }}
+          ENV_VARS: ${{ toJson(vars) }}
+        run: |
           echo "Creating .env file from ENV_VARS..."
           echo "$ENV_VARS" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > .env
           echo -e "DOCKER_REGISTRY_IMAGE=${{ env.DOCKER_REPO }}:${{ env.TAG }}" >> .env
@@ -108,4 +108,4 @@ jobs:
             docker compose up -d  
             docker ps            
             # clear docker images
-            # docker rmi $(docker images | grep '${{ env.DOCKER_REPO }}')
+            docker rmi $(docker images | grep '${{ env.DOCKER_REPO }}') || true
