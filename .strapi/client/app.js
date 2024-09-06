@@ -5,6 +5,7 @@
 import graphql from "@strapi/plugin-graphql/strapi-admin";
 import i18N from "@strapi/plugin-i18n/strapi-admin";
 import usersPermissions from "@strapi/plugin-users-permissions/strapi-admin";
+import reactIcons from "strapi-plugin-react-icons/strapi-admin";
 import wysiwyg from "../../src/plugins/wysiwyg/strapi-admin";
 import { renderAdmin } from "@strapi/strapi/admin";
 
@@ -13,6 +14,7 @@ renderAdmin(document.getElementById("strapi"), {
     graphql: graphql,
     i18n: i18N,
     "users-permissions": usersPermissions,
+    "react-icons": reactIcons,
     wysiwyg: wysiwyg,
   },
 });
