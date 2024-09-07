@@ -3,7 +3,7 @@ module.exports = {
     {
       method: "POST",
       path: "/subscribers/subscribe",
-      handler: "subscriber.subscriber",
+      handler: "subscriber.subscribe",
     },
   ],
 };
