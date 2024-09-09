@@ -25,39 +25,20 @@ export default factories.createCoreController(
       if (!recaptchaResponse.data.success) {
         return ctx.badRequest("reCAPTCHA verification failed");
       }
-      // Create subscriber
       try {
-        const subscriber = await strapi.entityService.create(
-          "api::subscriber.subscriber",
-          {
-            data: {
-              email,
-              name,
-              isSubscribe: true,
-              uuid: v4(),
-            },
-          }
+        const { subscriber, isNewSubscription } = await getOrCreateSubscriber(
+          email,
+          name
         );
 
-        // Send confirmation email
-        await strapi.plugins["email"].services.email.send({
-          cc: process.env.MAIL_CC || "nguyenthanhson162001@gmail.com",
-          to: email,
-          from: "no-reply@sowndev.com",
-          subject: "Subscription Confirmation - sowndev",
-          html: `
-            <p>Hi <b>${name}</b>,</p>
-            
-            <p>Thank you for subscribing to sowndev. We're excited to have you on board!</p>
-            
-            <p>You'll now receive updates on our latest content, promotions, and news.</p>
-
-            <p>Best regards,<br>sowndev Team</p>
-          `,
-        });
+        if (isNewSubscription) {
+          await sendEmail(email, name || email);
+        }
 
         return ctx.send({
-          message: "Subscription successful",
+          message: isNewSubscription
+            ? "Subscription successful"
+            : "Already subscribed",
           subscriber,
         });
       } catch (error) {
@@ -67,3 +48,52 @@ export default factories.createCoreController(
     },
   })
 );
+
+async function getOrCreateSubscriber(email: string, name: string) {
+  const [existingSubscriber] = await strapi.entityService.findMany(
+    "api::subscriber.subscriber",
+    {
+      filters: { email },
+      limit: 1,
+    }
+  );
+
+  if (existingSubscriber) {
+    if (existingSubscriber.isSubscribe) {
+      return { subscriber: existingSubscriber, isNewSubscription: false };
+    }
+    const updatedSubscriber = await strapi.entityService.update(
+      "api::subscriber.subscriber",
+      existingSubscriber.id,
+      { data: { isSubscribe: true } }
+    );
+    return { subscriber: updatedSubscriber, isNewSubscription: true };
+  }
+
+  const newSubscriber = await strapi.entityService.create(
+    "api::subscriber.subscriber",
+    {
+      data: { email, name, isSubscribe: true, uuid: v4() },
+    }
+  );
+  return { subscriber: newSubscriber, isNewSubscription: true };
+}
+
+const sendEmail = async (email: string, name: string) => {
+  // Send confirmation email
+  await strapi.plugins["email"].services.email.send({
+    cc: process.env.MAIL_CC || "nguyenthanhson162001@gmail.com",
+    to: email,
+    from: "no-reply@sowndev.com",
+    subject: "Subscription Confirmation - sowndev",
+    html: `
+      <p>Hi <b>${name}</b>,</p>
+      
+      <p>Thank you for subscribing to sowndev. We're excited to have you on board!</p>
+      
+      <p>You'll now receive updates on our latest content, promotions, and news.</p>
+
+      <p>Best regards,<br>sowndev Team</p>
+    `,
+  });
+};
